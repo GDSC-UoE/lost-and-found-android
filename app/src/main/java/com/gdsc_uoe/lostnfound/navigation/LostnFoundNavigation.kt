@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.gdsc_uoe.lostnfound.screens.searchScreen.SearchScreen
 import com.gdsc_uoe.lostnfound.screens.splash.SplashScreen
 
 @Composable
@@ -14,6 +15,9 @@ fun LostnFoundNavigation() {
         startDestination = LostnFoundScreens.SplashScreen.name) {
         composable(LostnFoundScreens.SplashScreen.name) {
             SplashScreen(navController = navController)
+        }
+        composable(LostnFoundScreens.SearchScreen.name) {
+            SearchScreen(navController = navController)
         }
     }
 
