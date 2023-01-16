@@ -17,8 +17,8 @@ jobs:
         java-version: '14'
 
     - name: Build project
-      run: ./gradlew build
+      run: sudo ./gradlew build
 
     - name: Run unit tests
-      run: ./gradlew test
+      run: sudo ./gradlew test
 
