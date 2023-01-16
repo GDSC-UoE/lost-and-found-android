@@ -1,28 +1,24 @@
-# This is a basic workflow that is manually triggered
+name: CI for Lost\'n\'Found
 
-name: CI/CD for Lost n Found App
-
-on: 
+on:
   push:
-    branches:
-      - dev
-    
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    
-    steps: 
-    - name: Checkout code 
+
+    steps:
+    - name: Checkout code
       uses: actions/checkout@v2
-      
+
     - name: Set up JDK
       uses: actions/setup-java@v1
       with:
         java-version: '14'
-        
+
     - name: Build project
       run: ./gradlew build
-      
+
     - name: Run unit tests
       run: ./gradlew test
+
