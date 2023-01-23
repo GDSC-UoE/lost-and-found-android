@@ -15,6 +15,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.gdsc_uoe.lostnfound.navigation.LostnFoundScreens
 
 @Composable
 fun InputCaption(
@@ -32,6 +34,7 @@ fun InputCaption(
 fun InputField(
     modifier: Modifier = Modifier,
     valueState : MutableState<String>,
+    navController: NavController,
     labelId : String,
     enabled : Boolean,
     isSingleLine : Boolean = true,
@@ -56,7 +59,7 @@ fun InputField(
             leadingIcon = {
                     Row(horizontalArrangement = Arrangement.Start){
                         Spacer(modifier = Modifier.width(10.dp))
-                        Button(onClick = { /*TODO*/ }) {
+                        Button(onClick = { navController.navigate(LostnFoundScreens.CameraScreen.name) }) {
                             Text(text = "Choose File")
                         }}
             },

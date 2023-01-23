@@ -59,23 +59,28 @@ fun PostScreen(navController: NavController, scrollableState: ScrollState = reme
                 .verticalScroll(scrollableState)) {
 
             InputCaption(title = "Name")
-            InputField(valueState = name, labelId = "Enter Name", enabled = true)
+            InputField(valueState = name, labelId = "Enter Name",
+                navController = navController, enabled = true)
 
             InputCaption(title = "Image")
-            InputField(valueState = image, labelId = "No file selected", enabled = true)
+            InputField(valueState = image, labelId = "No file selected",
+                navController = navController, enabled = true)
 
             InputCaption(title = "Description")
-            InputField(valueState = description, labelId = "Enter Description",
+            InputField(valueState = description, labelId = "Enter Description", navController = navController,
                 enabled = true, isSingleLine = false, maxLines = 5, modifier = Modifier.height(120.dp))
 
             InputCaption(title = "Location Found")
-            InputField(valueState = location, labelId = "Enter Location Found", enabled = true)
+            InputField(valueState = location, labelId = "Enter Location Found",
+                navController = navController, enabled = true)
 
             InputCaption(title = "Keywords")
-            InputField(valueState = keywords, labelId = "Enter Keywords on Item", enabled = true)
+            InputField(valueState = keywords, labelId = "Enter Keywords on Item",
+                navController = navController, enabled = true)
 
             InputCaption(title = "Contact")
-            InputField(valueState = contact, labelId = "Enter Your Contact", enabled = true)
+            InputField(valueState = contact, labelId = "Enter Your Contact",
+                navController = navController, enabled = true)
             
             Button(onClick = { /*TODO*/ },
                 modifier = Modifier
