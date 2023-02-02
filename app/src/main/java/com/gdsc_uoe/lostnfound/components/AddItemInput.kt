@@ -1,6 +1,8 @@
 package com.gdsc_uoe.lostnfound.components
 
+import android.graphics.Color
 import android.icu.text.CaseMap.Title
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.gdsc_uoe.lostnfound.navigation.LostnFoundScreens
+import com.gdsc_uoe.lostnfound.ui.theme.PrimaryMain
 
 @Composable
 fun InputCaption(
@@ -52,6 +55,10 @@ fun InputField(
             placeholder = { Text(text = labelId) },
             singleLine = isSingleLine,
             maxLines = maxLines,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                cursorColor = PrimaryMain,
+                focusedBorderColor = PrimaryMain
+            ),
             textStyle = TextStyle(
                 color = MaterialTheme.colors.onBackground,
                 fontSize = 18.sp
@@ -59,7 +66,11 @@ fun InputField(
             leadingIcon = {
                     Row(horizontalArrangement = Arrangement.Start){
                         Spacer(modifier = Modifier.width(10.dp))
-                        Button(onClick = { navController.navigate(LostnFoundScreens.CameraScreen.name) }) {
+                        Button(onClick = { navController.navigate(LostnFoundScreens.CameraScreen.name)},
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = PrimaryMain,
+                                contentColor = MaterialTheme.colors.onPrimary
+                            )) {
                             Text(text = "Choose File")
                         }}
             },
@@ -77,6 +88,10 @@ fun InputField(
             placeholder = { Text(text = labelId) },
             singleLine = isSingleLine,
             maxLines = maxLines,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                cursorColor = PrimaryMain,
+                focusedBorderColor = PrimaryMain
+            ),
             textStyle = TextStyle(
                 color = MaterialTheme.colors.onBackground,
                 fontSize = 18.sp
