@@ -15,7 +15,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.gdsc_uoe.lostnfound.screens.cameraScreen.camera.EMPTY_IMAGE_URI
+import com.gdsc_uoe.lostnfound.screens.cameraScreen.EMPTY_IMG_URI
 import com.gdsc_uoe.lostnfound.util.Permission
 
 @Composable
@@ -27,7 +27,7 @@ fun GallerySelect(
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri: Uri? ->
-            onImageUri(uri ?: EMPTY_IMAGE_URI)
+            onImageUri(uri ?: EMPTY_IMG_URI)
         })
 
     @Composable
@@ -42,6 +42,9 @@ fun GallerySelect(
             permission = Manifest.permission.ACCESS_MEDIA_LOCATION,
             rationale = "Please allow access to your Gallery",
             permissionNotAvailableContent = {
+
+
+
                 Column(modifier) {
                     Text(text = "Please allow access to gallery")
                     Spacer(modifier = Modifier.height(8.dp))
@@ -61,7 +64,7 @@ fun GallerySelect(
                         Button(
                             modifier = Modifier.padding(4.dp),
                             onClick = {
-                                onImageUri(EMPTY_IMAGE_URI)
+                                onImageUri(EMPTY_IMG_URI)
                             }) {
                             Text(text = "Use Camera")
                         }

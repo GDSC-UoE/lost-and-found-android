@@ -3,9 +3,12 @@ package com.gdsc_uoe.lostnfound.screens.cameraScreen.camera
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.util.Log
-import android.widget.Toast
+import android.widget.ImageButton
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
@@ -16,7 +19,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,9 +33,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toFile
 import androidx.lifecycle.lifecycleScope
 import com.gdsc_uoe.lostnfound.R
+import com.gdsc_uoe.lostnfound.screens.cameraScreen.EMPTY_IMG_URI
 import com.gdsc_uoe.lostnfound.screens.cameraScreen.gallery.GallerySelect
+import com.gdsc_uoe.lostnfound.ui.theme.PrimaryMain
 import com.gdsc_uoe.lostnfound.util.Permission
 import kotlinx.coroutines.launch
 import java.io.File
@@ -38,11 +46,14 @@ import java.io.File
 @Composable
 fun CameraImageCapture(
     modifier: Modifier = Modifier,
-    //cameraSelector: CameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA,
     onImageFile: (File) -> Unit = { },
+    onGalleryClick : (Boolean) -> Unit = { }
 ) {
     val cameraSelector : MutableState<CameraSelector> = remember {
         mutableStateOf(CameraSelector.DEFAULT_BACK_CAMERA)
+    }
+    val galleryStates = remember {
+        mutableStateOf(false)
     }
 
     val context = LocalContext.current
@@ -50,21 +61,28 @@ fun CameraImageCapture(
         permission = Manifest.permission.CAMERA,
         rationale = "Please allow access to your camera.",
         permissionNotAvailableContent = {
-            Column(modifier) {
-                Text("Go to settings to allow permission")
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(
-                    onClick = {
+            AlertDialog(
+                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                onDismissRequest = { /* Don't */ },
+                title = {
+                    Text(text = "Permission request")
+                },
+                text = {
+                    Text("Go to settings to allow permission")
+                },
+                confirmButton = {
+                    Button(onClick = {
                         context.startActivity(
                             Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                                 data = Uri.fromParts("package", context.packageName, null)
                             }
                         )
+                    },
+                        colors = ButtonDefaults.buttonColors(PrimaryMain)) {
+                        Text("Open Settings", color = Color.White)
                     }
-                ) {
-                    Text("Open Settings")
                 }
-            }
+            )
         }
     ) {
         Box(modifier = modifier) {
@@ -97,23 +115,14 @@ fun CameraImageCapture(
                         painterResource(id = R.drawable.ic_gallery),
                         contentDescription = "Gallery",
                         modifier = Modifier
-                            .clickable {
-//                                GallerySelect(
-//                                    modifier = modifier,
-//                                    onImageUri = { uri ->
-//                                        //showGallerySelect = false
-//                                        previewUseCase = uri
-//                                    }
-//                                )
-                                Toast
-                                    .makeText(context, "Clicked", Toast.LENGTH_SHORT)
-                                    .show()
-                            }
                             .clip(RoundedCornerShape(15.dp))
                             .background(Color.Black.copy(0.4f))
                             .padding(5.dp)
-                            .size(45.dp),
-
+                            .size(45.dp)
+                            .clickable {
+                                galleryStates.value = true
+                                onGalleryClick(galleryStates.value)
+                            },
                         colorFilter = ColorFilter.tint(Color.White)
                     )
 
@@ -161,17 +170,6 @@ fun CameraImageCapture(
                         colorFilter = ColorFilter.tint(Color.White)
                     )
                 }
-//                CapturePictureButton(
-//                    modifier = Modifier
-//                        .size(100.dp)
-//                        .padding(16.dp)
-//                        .align(Alignment.BottomCenter),
-//                    onClick = {
-//                        coroutineScope.launch {
-//                            imageCaptureUseCase.takePicture(context.executor).let(onImageFile)
-//                        }
-//                    }
-//                )
             }
             LaunchedEffect(previewUseCase) {
                 val cameraProvider = context.getCameraProvider()

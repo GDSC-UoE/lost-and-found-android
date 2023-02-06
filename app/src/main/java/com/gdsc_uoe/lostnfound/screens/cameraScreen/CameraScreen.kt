@@ -5,7 +5,9 @@ import android.net.Uri
 import android.provider.Settings
 import android.util.Log
 import android.view.ViewGroup
+import android.widget.Gallery
 import android.widget.ImageView.ScaleType
+import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY
@@ -36,6 +38,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -67,6 +70,7 @@ fun CameraScreen(navController: NavController) {
 @Composable
 fun Camera(modifier: Modifier = Modifier) {
     var imgUri by remember { mutableStateOf(EMPTY_IMG_URI) }
+    var galleryValue by remember { mutableStateOf(false) }
     if (imgUri != EMPTY_IMG_URI) {
         Box(modifier = modifier) {
             Image(
@@ -87,7 +91,7 @@ fun Camera(modifier: Modifier = Modifier) {
                         .background(Color.Black.copy(0.4f))
                         .padding(5.dp)
                         .size(45.dp)
-                        .clickable { imgUri = EMPTY_IMAGE_URI },
+                        .clickable { imgUri = EMPTY_IMG_URI },
                     colorFilter = ColorFilter.tint(Color.White)
                 )
                 Spacer(modifier = Modifier.width(180.dp))
@@ -103,92 +107,31 @@ fun Camera(modifier: Modifier = Modifier) {
                 )
             }
         }
+
     } else {
         Box(modifier = modifier) {
             CameraImageCapture(
                 modifier = modifier.fillMaxSize(),
                 onImageFile = { file ->
                     imgUri = file.toUri()
+                },
+                onGalleryClick = {
+                    galleryValue = it
                 }
             )
         }
     }
+
+    if (galleryValue) {
+        GallerySelect(
+            modifier = modifier,
+            onImageUri = { uri ->
+                imgUri = uri
+            }
+        )
+    }
+
+
 }
 
-val EMPTY_IMG_URI: Uri = Uri.parse("file://lostnfound/null")
-
-
-// Preview Screen
-
-//Box(modifier = Modifier.fillMaxSize()) {
-//    Text(text = "Lots of text")
-//    Row(modifier = Modifier
-//        .align(Alignment.BottomCenter)
-//        .padding(start = 15.dp, end = 15.dp, bottom = 50.dp)) {
-//        Image(
-//            painterResource(id = R.drawable.ic_close),
-//            contentDescription = "Close",
-//            modifier = Modifier
-//                .clip(RoundedCornerShape(15.dp))
-//                .background(Color.Black.copy(0.4f))
-//                .padding(5.dp)
-//                .size(45.dp),
-//            colorFilter = ColorFilter.tint(Color.White)
-//        )
-//        Spacer(modifier = Modifier.width(180.dp))
-//        Image(
-//            painterResource(id = R.drawable.ic_tick),
-//            contentDescription = "Close",
-//            modifier = Modifier
-//                .clip(CircleShape)
-//                .background(Color.Black.copy(0.4f))
-//                .padding(5.dp)
-//                .size(45.dp),
-//            colorFilter = ColorFilter.tint(Color.White)
-//        )
-//    }
-//}
-
-
-// Camera Screen
-
-//Box(modifier = Modifier.fillMaxSize()) {
-//    Text(text = "Lots of text")
-//    Row(modifier = Modifier
-//        .align(Alignment.BottomCenter)
-//        .padding(start = 15.dp, end = 15.dp, bottom = 50.dp)) {
-//        Image(
-//            painterResource(id = R.drawable.ic_gallery),
-//            contentDescription = "Close",
-//            modifier = Modifier
-//                .clip(RoundedCornerShape(15.dp))
-//                .background(Color.Black.copy(0.4f))
-//                .padding(5.dp)
-//                .size(45.dp),
-//            colorFilter = ColorFilter.tint(Color.White)
-//        )
-//        Spacer(modifier = Modifier.width(90.dp))
-//        Image(
-//            painterResource(id = R.drawable.ic_close),
-//            contentDescription = "Close",
-//            modifier = Modifier
-//                .clip(RoundedCornerShape(15.dp))
-//                .background(Color.Black.copy(0.4f))
-//                .padding(5.dp)
-//                .size(45.dp),
-//            colorFilter = ColorFilter.tint(Color.White)
-//        )
-//
-//        Spacer(modifier = Modifier.width(90.dp))
-//        Image(
-//            painterResource(id = R.drawable.ic_flipcamera),
-//            contentDescription = "Close",
-//            modifier = Modifier
-//                .clip(CircleShape)
-//                .background(Color.Black.copy(0.4f))
-//                .padding(5.dp)
-//                .size(45.dp),
-//            colorFilter = ColorFilter.tint(Color.White)
-//        )
-//    }
-//}
+var EMPTY_IMG_URI: Uri = Uri.parse("file://lostnfound/null")
