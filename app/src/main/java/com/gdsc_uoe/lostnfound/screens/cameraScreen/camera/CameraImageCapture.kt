@@ -3,12 +3,8 @@ package com.gdsc_uoe.lostnfound.screens.cameraScreen.camera
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.provider.Settings
 import android.util.Log
-import android.widget.ImageButton
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
@@ -33,11 +29,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toFile
 import androidx.lifecycle.lifecycleScope
 import com.gdsc_uoe.lostnfound.R
-import com.gdsc_uoe.lostnfound.screens.cameraScreen.EMPTY_IMG_URI
-import com.gdsc_uoe.lostnfound.screens.cameraScreen.gallery.GallerySelect
 import com.gdsc_uoe.lostnfound.ui.theme.PrimaryMain
 import com.gdsc_uoe.lostnfound.util.Permission
 import kotlinx.coroutines.launch

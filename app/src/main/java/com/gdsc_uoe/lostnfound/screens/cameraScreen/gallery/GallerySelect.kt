@@ -8,14 +8,17 @@ import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.gdsc_uoe.lostnfound.screens.cameraScreen.EMPTY_IMG_URI
+import com.gdsc_uoe.lostnfound.ui.theme.PrimaryMain
 import com.gdsc_uoe.lostnfound.util.Permission
 
 @Composable
@@ -29,6 +32,7 @@ fun GallerySelect(
         onResult = { uri: Uri? ->
             onImageUri(uri ?: EMPTY_IMG_URI)
         })
+    var openDialog by remember { mutableStateOf(true) }
 
     @Composable
     fun LaunchGallery() {
@@ -42,33 +46,42 @@ fun GallerySelect(
             permission = Manifest.permission.ACCESS_MEDIA_LOCATION,
             rationale = "Please allow access to your Gallery",
             permissionNotAvailableContent = {
-
-
-
-                Column(modifier) {
-                    Text(text = "Please allow access to gallery")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row {
-                       Button(
-                           modifier= Modifier.padding(4.dp),
-                           onClick = {
-                               context.startActivity(
-                                   Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                       data = Uri.fromParts("package", context.packageName, null)
-                                   }
-                               )
-                           }) {
-                           Text(text = "Open Settings")
-                       }
-                        // Going back if permission is not granted
-                        Button(
-                            modifier = Modifier.padding(4.dp),
-                            onClick = {
-                                onImageUri(EMPTY_IMG_URI)
-                            }) {
-                            Text(text = "Use Camera")
-                        }
-                    }
+                if (openDialog) {
+                    AlertDialog(
+                        modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                        onDismissRequest = { /* Don't */ },
+                        title = {
+                            Text(text = "Please allow gallery permission")
+                        },
+                        text = {
+                            Text("Go to settings to allow permission")
+                        },
+                        confirmButton = {
+                            Row {
+                                Button(
+                                    modifier= Modifier.padding(4.dp),
+                                    colors = ButtonDefaults.buttonColors(PrimaryMain),
+                                    onClick = {
+                                        context.startActivity(
+                                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                                data = Uri.fromParts("package", context.packageName, null)
+                                            }
+                                        )
+                                    }) {
+                                    Text(text = "Open Settings", color = Color.White)
+                                }
+                                // Going back if permission is not granted
+                                Button(
+                                    modifier = Modifier.padding(4.dp),
+                                    colors = ButtonDefaults.buttonColors(PrimaryMain),
+                                    onClick = {
+                                        onImageUri(EMPTY_IMG_URI)
+                                        openDialog = false
+                                    }) {
+                                    Text(text = "Use Camera", color = Color.White)
+                                }
+                            }
+                        } )
                 }
             }
         ) {
