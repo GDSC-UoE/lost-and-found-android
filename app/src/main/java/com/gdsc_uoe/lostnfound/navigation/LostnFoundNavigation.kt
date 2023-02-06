@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.gdsc_uoe.lostnfound.screens.cameraScreen.CameraScreen
 import com.gdsc_uoe.lostnfound.screens.chatsScreen.ChatsScreen
 import com.gdsc_uoe.lostnfound.screens.postScreen.PostScreen
 import com.gdsc_uoe.lostnfound.screens.profileScreen.ProfileScreen
@@ -24,6 +25,9 @@ fun LostnFoundNavigation(navController: NavHostController) {
         }
         composable(LostnFoundScreens.PostScreen.name) {
             PostScreen(navController = navController)
+        }
+        composable(LostnFoundScreens.CameraScreen.name) {
+            CameraScreen(navController = navController)
         }
         composable(LostnFoundScreens.ChatsScreen.name) {
             ChatsScreen(navController = navController)
