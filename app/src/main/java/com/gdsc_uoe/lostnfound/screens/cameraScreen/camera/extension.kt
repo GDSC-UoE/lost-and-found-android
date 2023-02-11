@@ -32,7 +32,7 @@ suspend fun ImageCapture.takePicture(executor: Executor) : File {
             File.createTempFile("image", "jpg")
         }.getOrElse { ex ->
             Log.e("TakePicture", "Failed to take image", ex)
-            File("dev/null")
+            File("lostnfound/null")
         }
     }
 

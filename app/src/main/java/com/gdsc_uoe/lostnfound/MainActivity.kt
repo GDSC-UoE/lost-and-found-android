@@ -8,10 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,6 +42,7 @@ fun LostnFoundApp() {
 
         showBottomBar = when (navBackStackEntry?.destination?.route) {
             LostnFoundScreens.SplashScreen.name -> false
+            LostnFoundScreens.CameraScreen.name -> false
             else -> true
         }
 

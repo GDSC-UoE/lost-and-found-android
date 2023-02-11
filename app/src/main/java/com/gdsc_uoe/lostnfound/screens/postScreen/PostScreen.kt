@@ -29,6 +29,7 @@ import androidx.navigation.NavController
 import com.gdsc_uoe.lostnfound.components.InputCaption
 import com.gdsc_uoe.lostnfound.components.InputField
 import com.gdsc_uoe.lostnfound.components.LnFAppBar
+import com.gdsc_uoe.lostnfound.ui.theme.PrimaryMain
 
 @Composable
 fun PostScreen(navController: NavController, scrollableState: ScrollState = rememberScrollState()) {
@@ -86,7 +87,11 @@ fun PostScreen(navController: NavController, scrollableState: ScrollState = reme
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(45.dp)
-                    .padding(start = 15.dp, end = 15.dp, top = 4.dp)) {
+                    .padding(start = 15.dp, end = 15.dp, top = 4.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = PrimaryMain,
+                    contentColor = MaterialTheme.colors.onPrimary
+                )) {
                 Text(text = "SAVE")
             }
         }
@@ -95,10 +100,4 @@ fun PostScreen(navController: NavController, scrollableState: ScrollState = reme
 
     }
 }
-
-//@Composable
-//fun NameInput(
-//    title : String,
-//
-//)
 
